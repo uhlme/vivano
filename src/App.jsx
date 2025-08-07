@@ -8,6 +8,8 @@ import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import BuildIcon from '@mui/icons-material/Build';
 import PetsIcon from '@mui/icons-material/Pets';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { FieldsProvider } from "./context/FieldsContext";
+
 
 import Fields from "./pages/Fields";
 import Tasks from "./pages/Tasks";
@@ -51,19 +53,22 @@ function VivanoBottomNav() {
 
 function App() {
   return (
-    <Router>
-      <Box sx={{ pb: 7, minHeight: "100vh", backgroundColor: "#f5f5f5" }}>
-        <Routes>
-          <Route path="/" element={<Fields />} />
-          <Route path="/fields" element={<Fields />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/machines" element={<Machines />} />
-          <Route path="/animals" element={<Animals />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-        <VivanoBottomNav />
-      </Box>
-    </Router>
+    <FieldsProvider>
+      <Router>
+        <Box sx={{ pb: 7, minHeight: "100vh", backgroundColor: "#f5f5f5" }}>
+          <Routes>
+            <Route path="/" element={<Fields />} />
+            <Route path="/fields" element={<Fields />} />
+            <Route path="/tasks" element={<Tasks />} />
+            <Route path="/machines" element={<Machines />} />
+            <Route path="/animals" element={<Animals />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+          <VivanoBottomNav />
+        </Box>
+      </Router>
+    </FieldsProvider>
+    
   );
 }
 
