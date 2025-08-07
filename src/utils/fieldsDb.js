@@ -1,17 +1,14 @@
-import { set, get, del, keys } from "idb-keyval";
+import { createStore, set, get, del, keys } from "idb-keyval";
 
-// Save a field
-export const saveField = async (field) => set(`field-${field.id}`, field);
+// 1. IDB Store anlegen
+const vivanoStore = createStore('vivano-db', 'fields');
 
-// Load a single field
-export const loadField = async (id) => get(`field-${id}`);
-
-// Delete a field
-export const deleteField = async (id) => del(`field-${id}`);
-
-// List all fields
+// 2. Methoden – überall den Store als letzten Parameter!
+export const saveField = async (field) => set(`field-${field.id}`, field, vivanoStore);
+export const loadField = async (id) => get(`field-${id}`, vivanoStore);
+export const deleteField = async (id) => del(`field-${id}`, vivanoStore);
 export const listFields = async () => {
-  const allKeys = await keys();
+  const allKeys = await keys(vivanoStore); // Beachte store!
   const fieldKeys = allKeys.filter(key => typeof key === "string" && key.startsWith("field-"));
-  return Promise.all(fieldKeys.map(get));
+  return Promise.all(fieldKeys.map(key => get(key, vivanoStore)));
 }
